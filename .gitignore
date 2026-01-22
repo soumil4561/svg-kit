@@ -28,6 +28,7 @@ chrome-user-data
 dist/
 out/
 build/
+.env
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
