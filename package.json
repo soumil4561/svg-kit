@@ -1,10 +1,16 @@
 {
   "version": "1.0.0",
   "description": "My webpack project",
-  "name": "webpack-project",
+  "name": "@soumil4561/svg-kit",
   "type": "module",
   "main": "main.js",
   "types": "index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
