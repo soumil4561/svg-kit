@@ -1,0 +1,89 @@
+name: continuous-integration
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          clean: true
+          show-progress: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build package
+        run: npm run build
+
+      - name: Prepare publish directory
+        run: |
+          rm -rf out
+          mkdir out
+          cp -r dist out/
+          cp package.json out/
+          cp README.md out/
+          cp LICENSE out/
+          cp .npmignore out/
+
+      - name: Upload publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-dir
+          path: out
+
+  publish-to-registry:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    needs: build
+
+    steps:
+      - name: Download publish artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-dir
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@soumil4561'
+
+      - name: Pack package
+        working-directory: out
+        run: npm pack
+
+      - name: Publish package
+        working-directory: out
+        run: npm publish *.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
