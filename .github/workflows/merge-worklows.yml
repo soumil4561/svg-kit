@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   build:
@@ -44,7 +45,7 @@ jobs:
         run: |
           rm -rf out
           mkdir out
-          cp -r dist out/
+          cp -r dist/* out/
           cp package.json out/
           cp package-lock.json out/
           cp README.md out/
