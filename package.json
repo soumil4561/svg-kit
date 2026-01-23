@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "description": "My webpack project",
+  "version": "1.0.1",
+  "description": "very tiny react library to import some svg assets as react components",
   "name": "@soumil4561/svg-kit",
   "type": "module",
   "main": "main.js",
