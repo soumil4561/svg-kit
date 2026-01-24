@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "declaration": true,
-    "declarationDir": "dist",
     "rootDir": "src",
     "module": "es2022",
     "target": "es5",
     "allowJs": true,
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/types.d.ts"]
 }
