@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate index 
+        run: npm run generate-index
+
       - name: Check lint
         run: npm run lint
 
@@ -46,6 +49,7 @@ jobs:
           rm -rf out
           mkdir out
           cp -r dist/* out/
+          cp src/index.d.ts out/
           cp package.json out/
           cp README.md out/
           cp LICENSE out/
