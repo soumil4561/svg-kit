@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "very tiny react library to import some svg assets as react components",
   "name": "@soumil4561/svg-kit",
   "type": "module",
