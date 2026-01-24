@@ -45,7 +45,7 @@ const config = {
                   {
                     name: 'removeAttrs',
                     params: {
-                      attrs: '(fill|stroke)'
+                      attrs: '(stroke)'
                     }
                   }
                 ]
