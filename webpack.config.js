@@ -12,6 +12,7 @@ const config = {
   entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
+    library: { type: 'module' },
   },
   plugins: [
     // Add your plugins here
@@ -61,6 +62,8 @@ const config = {
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
   },
+  
+experiments: { outputModule: true },
 };
 
 export default () => {
