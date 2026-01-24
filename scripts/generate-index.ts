@@ -4,26 +4,46 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-// Path to your icon components
 const iconsDir = join(__dirname, '../assets/icons')
 const files = readdirSync(iconsDir).filter(f => f.endsWith('.svg'))
 
-// Function to convert kebab-case to PascalCase
 function toPascalCase(str: string): string {
   return str
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
     .join('')
 }
 
-// Generate export lines
-const exportLines = files
+const runtimeExports = files
   .map(file => {
     const name = toPascalCase(basename(file, '.svg'))
-    return `export { default as ${name} } from '../assets/icons/${file}';`
+    return `export { default as ${name} } from '../assets/icons/${file}'`
   })
   .join('\n')
 
-// Write to src/index.ts
-writeFileSync(join(__dirname, '../src/index.ts'), exportLines)
-console.log(`Generated index.ts with ${files.length} icons.`)
+writeFileSync(
+  join(__dirname, '../src/index.ts'),
+  runtimeExports + '\n'
+)
+
+const typeExports = files
+  .map(file => {
+    const name = toPascalCase(basename(file, '.svg'))
+    return `export const ${name}: Icon`
+  })
+  .join('\n')
+
+const dts = `
+import * as React from 'react'
+
+type Icon = React.FC<React.SVGProps<SVGSVGElement>>
+
+${typeExports}
+`
+
+writeFileSync(
+  join(__dirname, '../src/index.d.ts'),
+  dts.trim() + '\n'
+)
+
+console.log(`Generated ${files.length} icons (runtime + types).`)
